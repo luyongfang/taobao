@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../css/index.css" />
+		<title></title>
+	</head>
+
+	<body>
+
+		<div class="nav_A">
+			<span>淘宝账号登录</span>
+		</div>
+		<div class="nav_B">
+			<span><img src="img/57e039b45dd258140076d6f6f65c794e.png"></span>
+		</div>
+
+		<ul class="zhan_H">
+			<li>
+				<span>账号</span>
+			</li>
+			<li>
+				<input type="text" placeholder="手机号/邮箱/会员" id="phone" value="" />
+				<span id="Boss3">请输入手机号</span>
+			</li>
+		</ul>
+		<ul class="mima">
+			<li>
+				<span>登录密码</span>
+			</li>
+			<li>
+				<input type="password" placeholder="请客输入密码" id="pass" value="" />
+				<span id="Boss4">请输入密码</span>
+			</li>
+		</ul>
+
+		<div class="herder">
+			<button id="yes" disabled="disabled">登录</button>
+
+		</div>
+		<div class="herder_A">
+			<a href="ZhuC.html">免费注册</a>
+			<a href="../taoBao/淘宝页面/xGaI.html">忘记密码</a>
+
+		</div>
+
+	</body>
+	<script src="../js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		document.documentElement.style.fontSize = innerWidth / 16 + "px";
+		//				console.log("1rem="+innerWidth/16)
+		onresize = function() {
+			document.documentElement.style.fontSize = innerWidth / 16 + "px";
+		}
+
+		if(localStorage.getItem("user_phone") && localStorage.getItem("pss")) {
+			$("#phone").val(localStorage.getItem("phone"));
+			$("#pass").val(localStorage.getItem("pass_word"));
+		}
+		$("#yes").click(function() {
+
+			$.ajax({
+				type: "post",
+				url: "http://47.92.37.168/supermarket/data/login.php",
+										type: "post",
+										async: true,
+										data: {
+									user_phone: $("#phone").val(),
+											user_pass_word: $("#pass").val()
+								},
+								dataType: "jsonp",
+										jsonp: "callback",
+										success: function(data) {
+									//						console.log(data)
+									if(data.msg == "success") {
+										//							alert("登录成功");
+										console.log(data)
+										var str = data.info.user_addr.split("-")
+										console.log(str);
+										var str1 = []
+								for(var i = 0; i < str.length - 2; i++) {
+							str1.push(str[i])
+						}
+						str1 = str1.join("")
+						//							console.log(str1+"a")
+						//							debugger
+						var name = str[str.length - 1]
+						console.log(name + "a")
+						var tel = str[str.length - 2]
+						console.log(tel)
+						localStorage.setItem("name", name);
+						localStorage.setItem("phone", tel);
+						localStorage.setItem("sex", data.info.user_sex);
+						localStorage.setItem("addr", str1);
+						localStorage.setItem("psd", data.info.user_psd);
+						//							debugger
+
+						localStorage.setItem("phone1", $("#phone").val());
+						$("#phone").val("");
+						$("#pass").val("");
+						location.href = "../taoBao/淘宝页面/index.html";
+						console.log(data)
+					} else {
+						alert("登录失败")
+					}
+				}
+			});
+		})
+
+		//登录页面  验证
+
+		var reg1 = /^[1]\d{10}$/;
+		var reg2 = /^[0-9A-Za-z]{6,12}$/;
+
+		$("#phone").blur(function() {
+			if(reg1.test($("#phone").val())) {
+				$("#Boss3").html("输入正确");
+				$("#Boss3").css("color", "black");
+			} else {
+				$("#Boss3").html("输入错误");
+				$("#Boss3").css("color", "red");
+			}
+		});
+		//密码验证
+		$("#pass").blur(function() {
+			if(reg2.test($("#pass").val())) {
+				$("#Boss4").html("输入正确")
+				$("#Boss4").css("color", "black")
+			} else {
+				$("#Boss4").html("输入错误")
+				$("#Boss4").css("color", "red");
+			}
+			if(reg1.test($("#phone").val()) && reg2.test($("#pass").val())) {
+				$("#yes").css("background", "#FF4400");
+				$("#yes").attr("disabled", false);
+				//	        			console.log(localStorage.getItem("user_phone"));
+			} else {
+				$("#yes").attr("disabled", true);
+			}
+		});
+	</script>
+
+</html>

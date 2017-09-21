@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="../css/idnex.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
+		<script src="../js/swiper-3.4.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../bootstrap/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.css" />
+		<title></title>
+	</head>
+
+	<body>
+
+		<ul class="nav_B">
+			<li>
+				<span class="glyphicon glyphicon-list"></span>
+				<p>超市</p>
+			</li>
+			<li>
+				<input type="text" placeholder="薛龙超市" />
+			</li>
+			<li>
+				<span class="glyphicon glyphicon-shopping-cart"></span>
+				<span>北京</span>
+			</li>
+
+		</ul>
+		<div style="width:16rem;height: 2.9rem;"></div>
+
+		<div class="swiper-container b">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<li class="muying" id="muying">
+						<img src="../img/1.png">
+						<p>母婴玩具</p>
+					</li>
+
+				</div>
+				<div class="swiper-slide">
+					<li class="lingshi" id="lingshi">
+						<img src="../img/2.png">
+						<p>休闲零食</p>
+					</li>
+				</div>
+				<div class="swiper-slide">
+					<li class="jiushui" id="jiushui">
+						<img src="../img/3.png">
+						<p>酒水乳品</p>
+					</li>
+				</div>
+				<div class="swiper-slide">
+					<li class="liangyou" id="liangyou">
+						<img src="../img/4.png">
+						<p>粮油副食</p>
+					</li>
+				</div>
+				<div class="swiper-slide">
+					<li class="meirong" id="meirong">
+						<img src="../img/5.png">
+						<p>洗护美妆</p>
+					</li>
+				</div>
+				<div class="swiper-slide">
+					<li class="jingxuan" id="jingxuan">
+						<img src="../img/6.png">
+						<p>家具用品</p>
+					</li>
+				</div>
+				<div class="swiper-slide">
+					<li class="jiaqing" id="jiaqing">
+						<img src="../img/7.png">
+						<p>纸品家清</p>
+					</li>
+				</div>
+				<div class="swiper-slide">
+					<li class="jiayong hot" id="jiayong">
+						<img src="../img/8.png">
+						<p>家用电器</p>
+					</li>
+				</div>
+				<div class="swiper-slide">
+					<li class="shengxian" id="shengxian">
+						<img src="../img/9.png">
+						<p>进口食品</p>
+					</li>
+				</div>
+				<div class="swiper-slide">
+					<li class="jiayong" id="jiayong">
+						<img src="../img/10.png">
+						<p>出游季</p>
+					</li>
+				</div>
+			</div>
+		</div>
+
+		<div id="box">
+
+		</div>
+		
+	<div class="yie">
+		<button class="jiaz">点击加载</button>
+		<span>亲没有更多数据了</span>
+	</div>
+	
+	</body>
+	<script>
+		
+    (function () {
+        size();
+        window.onresize = function () {
+            size();
+        }
+        function size() {
+            var winW = document.documentElement.clientWidth || document.body.clientWidth;
+            document.documentElement.style.fontSize =  (winW / 320)*100 + "px";
+        }
+    })()
+	</script>
+	<script src="../js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var swiper1 = new Swiper(".b", {
+			slidesPerView: 6,
+			spaceBetween: 6
+		});
+
+		var cn = sessionStorage.className;
+		for(var i = 0; i < $('.swiper-slide li').length; i++) {
+			if($('.swiper-slide li')[i].className == cn) {
+				$('.swiper-slide li')[i].className = 'active';
+				getCommodity(start,cn);
+			}
+		}
+
+		var start = 0;
+		var classify = $('.swiper-slide li').attr("class");
+		
+		$('.swiper-slide li').click(function() {
+			classify=$(this).attr("class")
+			start = 0;
+			$("#box").empty();
+//			classify = this.className;
+			getCommodity(start,classify);
+			$(".jiaz").css("display","block");
+			$(".yie span").css("display","none");
+			$(this).addClass("active").parent().siblings().find("li").removeClass("active");	
+		});
+	
+		
+		$(".jiaz").click(function() {
+			start += 4;
+			getCommodity(start,classify);
+		})
+
+		function getCommodity(start,classify) {
+			$.ajax({
+				type: "post",
+				url: "http://47.92.37.168/supermarket/data/get_commodity.php",
+				async: true,
+				data: {
+					'start': start,
+					'classify': classify
+				},
+				success: function(data) {
+					console.log(data);
+					if(data){
+						
+							var html = "";
+						for(var i = 0; i < data.length;i++) {
+							html += "<ul>" +
+								'<li id="'+data[i].id+'">' + '<a><img src="http://47.92.37.168/supermarket/img/' + data[i].img + '"></a>' + '</li>' +
+								'<li>' + data[i].name + '</li>' +
+								'<li>' + "<span>" + data[i].count + "</span>" + "<span>" + data[i].price + "</span>" + '</li>' +
+								"</ul>"
+						}
+						$("#box").append(html);
+					
+					}else{
+						$(".jiaz").css("display","none");
+						$(".yie span").css("display","block");
+					}
+					
+				}
+			});
+
+		}
+		$(document).on('click','#box a',function(){
+			sessionStorage.setItem('pro_id',$(this).parents('li').attr('id'));
+			console.log(sessionStorage.getItem('pro_id'))
+			location.href="商品详情.html"
+		})
+		
+		document.documentElement.style.fontSize = innerWidth / 16 + "px";
+		//				console.log("1rem="+innerWidth/16)
+		onresize = function() {
+			document.documentElement.style.fontSize = innerWidth / 16 + "px";
+		}
+	</script>
+
+</html>

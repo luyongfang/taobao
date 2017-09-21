@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--优先使用IE最新版本和Chrome-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chome=1" />
+    <!--视口--设备宽度--初始缩放比例--最小缩放比例--最大缩放比例--用户缩放-->
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <!--禁止浏览器自动的识别-电话号码-email--->
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <!--是否启用Web全屏-->
+    <meta name="apple-mobile-web-app-capable" content='yes' />
+    <meta name="apple-mobile-web-status-bar-style" content="normal|black|black-translucent">
+    <!--设置苹果工具栏颜色-->
+    <meta name="apple-mobile-web-app-status-bar-style" content='black' />
+    <link rel="stylesheet" href="../css/order.css">
+    <title>Title</title>
+    <script src="../js/ydfontsize.js"></script>
+    <script src="../js/angular.js"></script>
+    <script src="../js/angular-route.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="sjxr">
+    <!-- 我的订单 -->
+    <div class="header">
+        <a href="../index.html"><img src="../img/left.png" alt=""></a>
+        <span>我的订单</span>
+        <a href="#"><img src="../img/search.png" alt=""></a>
+        <a href="#"><img src="../img/mbx.png" alt=""></a>
+    </div>
+    <!-- tab切换部分 -->
+    <div class="section">
+        <a href="#!/a">全部</a>
+        <a href="#!/b">待付款</a>
+        <a href="#!/c">待发货</a>
+        <a href="#!/d">待收货</a>
+        <a href="#!/e">待评价</a>
+    </div>
+    <!-- 切换内容 -->
+    <div ng-view></div>
+</body>
+</html>
+<script src="../js/order.js"></script>

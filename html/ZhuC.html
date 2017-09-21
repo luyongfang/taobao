@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<link rel="stylesheet" type="text/css" href="../css/idnex.css"/>
+		<title></title>
+	</head>
+	<body>
+		
+		<ul class="nav_B">
+			<li>
+				<a href="DenLu.html">返回</a>
+			</li>
+			<li>
+				<span>淘宝注册</span>
+			</li>
+		</ul>
+		<div class="zhi_A">
+			<span>为了您的账号安全请填写一个手机号完成验证</span>
+		</div>
+		<ul class="zhan_a">
+				<li>
+					<span>手机号</span>
+				</li>
+				<li>
+					<input type="text" value="" id="cell_phone"/>
+					<span id="Boss1">请客输入手机号</span>
+				</li>
+			</ul>
+			<ul class="mima_a">
+				<li>
+					<span>密码</span>
+				</li>
+				<li>
+					<input type="password" value="" id="pss" name="biaod2"/>
+					<span id="Boss2">请输入密码</span>
+				</li>
+			</ul>
+
+		</div>
+		<div>
+				<div class="herder_s">
+					<input onclick="add()" id="Qin" value="确定" type="button" disabled="disabled">
+				</div>
+		</div>
+	</body>
+	<script src="../js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+						document.documentElement.style.fontSize=innerWidth/16+"px";
+//				console.log("1rem="+innerWidth/16)
+			onresize=function(){
+				document.documentElement.style.fontSize=innerWidth/16+"px";
+		}
+			
+ 
+		function add(){
+//			alert("en")
+			$.ajax({
+				type:"post",
+				url:"http://47.92.37.168/supermarket/data/register.php",
+				async:true,
+				data:{
+					user_phone:$("#cell_phone").val(),
+					user_pass_word:$("#pss").val()
+				},
+				dataType:"jsonp",
+				jsonp:"callback",
+				success:function(data){
+						console.log(data)
+					
+					 if(data.msg=="success"){
+					 	 localStorage.setItem("user_phone",$("#cell_phone").val());
+					 	localStorage.setItem("pss",$("#pss").val());
+					 	location.href="DenLu.html";
+					 	$("#cell_phone").val("")
+					 	$("#pss").val("")
+					 }
+					 
+				}
+			});	
+		}
+	 //给手机号 绑定事件
+	 
+			  var reg1=/^[1]\d{10}$/;
+			  var reg2=/^[0-9A-Za-z]{6,12}$/;
+			  
+		   $("#cell_phone").blur(function(){    
+		        if(reg1.test($("#cell_phone").val())){
+		            $("#Boss1").html("输入正确");
+		            $("#Boss1").css("color","black"); 
+		        }else{
+		            $("#Boss1").html("输入错误");
+		            $("#Boss1").css("color","red");
+		        }
+		    });
+		    //密码验证
+		      $("#pss").blur(function(){
+		        if(reg2.test($("#pss").val())){
+		            $("#Boss2").html("输入正确")
+		            $("#Boss2").css("color","black")
+		        }else{
+		            $("#Boss2").html("输入错误")
+		            $("#Boss2").css("color","red");
+		        }
+		
+		
+			        if(reg1.test($("#cell_phone").val()) && reg2.test($("#pss").val())){
+			        		$("#Qin").css("background","#FF4400");
+			        		$("#Qin").attr("disabled",false);
+		//	        			console.log(localStorage.getItem("user_phone"));
+			        }else{
+			        	$("#Qin").attr("disabled",true);
+			        }   
+		    });
+
+
+	</script>
+</html>

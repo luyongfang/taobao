@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<link rel="stylesheet" type="text/css" href="../myTaoBaoCSS/myTaoBao.css"/>
+		<title></title>
+	</head>
+	<body style="background: #EEEEEE;">
+		
+			<ul class="nav_SZ">
+				<li>
+					<a href="myTaoBao.html"><</a>
+				</li>
+				<li>设置</li>
+				<li>
+					<img src="../img1/2017-08-22_171632.png"/>
+				</li>
+			</ul>
+			
+	<a href="gliYmian.html">
+		<ul class="nav_sh">
+				<li>收货地址</li>
+				<li></li>
+				<li>></li>
+			</ul>
+		</a>		
+			
+
+		<a href="xGaI.html">
+			<ul class="nav_mm">
+				<li>修改密码</li>
+				<li></li>
+				<li>></li>
+			</ul>
+		</a>	
+			
+		<div class="yesq">
+			<input type="button" value="退出当前账号"/>
+		</div>		
+	</body>
+	<script src="../js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		
+		document.documentElement.style.fontSize=innerWidth/16+"px";
+//				console.log("1rem="+innerWidth/16)
+			onresize=function(){
+				document.documentElement.style.fontSize=innerWidth/16+"px";
+			};
+		$(".yesq").click(function(){
+				localStorage.clear();
+				location.href="../DenLu.html";
+		})
+	</script>
+</html>

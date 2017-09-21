@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			
+			.nav_es {
+				width: 16rem;
+				font-size: 0.5rem;
+				display: flex;
+				justify-content: flex-start;
+				padding: 0.5rem 0;
+			}
+			
+			.nav_es li:nth-of-type(1) {
+				margin-left: 0.5rem;
+			}
+			
+			.nav_es li:nth-of-type(2) {
+				margin-left: 5rem;
+			}
+			
+			.nav_eq {
+				width: 16rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-direction: column;
+				background: #5E6B85;
+				color: #fff;
+				font-size: 0.5rem;
+				/*padding: 0.5rem 0;*/
+			}
+			
+			.nav_eq li {
+				width: 15rem;
+			}
+			
+			.xinz {
+				width: 16rem;
+				position: absolute;
+				bottom: 0;
+			}
+			
+			.xinz input {
+				width: 16rem;
+				background: #FF5500;
+				color: #fff;
+				padding: 0.6rem 0;
+				border: none;
+				outline: none;
+			}
+			
+			#yeqw {
+				margin-left: 3rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<ul class="nav_es">
+			<li>
+				<a href="guanlI.html">
+					<</a>
+			</li>
+			<li>管理收货地址</li>
+		</ul>
+
+		<ul class="nav_eq">
+
+		</ul>
+
+		<div class="xinz">
+			<input type="button" name="" id="" value="新增加地址" />
+		</div>
+	</body>
+	<script src="../js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		document.documentElement.style.fontSize = innerWidth / 16 + "px";
+		//				console.log("1rem="+innerWidth/16)
+		onresize = function() {
+			document.documentElement.style.fontSize = innerWidth / 16 + "px";
+		};
+		var use_name = localStorage.getItem("name");
+		var phone = localStorage.getItem("phone");
+		var addr = localStorage.getItem("addr");
+		var phone1 = localStorage.getItem("phone1");
+
+		//			var	use_phone=localStorage.getItem("use_phone");
+
+		//			console.log(addr)
+
+		if(use_name) {
+
+			$.ajax({
+				type: "post",
+				url: "http://47.92.37.168/supermarket/data/user_update_addr.php",
+				async: true,
+				data: {
+					user_addr: addr,
+					user_phone: phone
+				},
+				dataType: "jsonp",
+				jsonp: "callback",
+				success: function(data) {
+					//					console.log()
+					console.log(data);
+					var str = "";
+					if(phone1) {
+						str += "<li>" + "<span>" + "收货人：" + use_name + "</span>" + "<span id='yeqw'>" + "联系人电话：" + phone + "</span>" + "</li>" +
+							"<li>" + "<span>" + "收货地址：" + addr + "</span>" + "</li>";
+						$(".nav_eq").append(str)
+					}
+
+				}
+			});
+		} else {
+			$(".nav_eq").css("display", "none")
+		}
+
+		$(".xinz input").click(function() {
+			location.href = "guanlI.html";
+		})
+
+		//			var strs="<li>"+"<span>"+"收货人："+localStorage.getItem("newB")+"</span>"+"<span id='yeqw'>"+"联系人电话："+localStorage.getItem("phone1")+"</span>"+"</li>"+
+		//			"<li>"+"<span>"+"收货地址："+localStorage.getItem("newC")+"</span>"+"</li>";
+		//			$(".nav_eq").append(strs);
+		//			
+		//			$(".xinz input").click(function(){
+		//				location.href="guanlI.html";
+		//			})
+	</script>
+
+</html>
